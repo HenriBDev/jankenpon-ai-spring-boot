@@ -1,0 +1,73 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'Calibri';
+}
+
+html, body{
+    height: 100%;
+}
+
+header{
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+main{
+    width: 100%;
+    height: 60%;
+    display: flex;
+    align-items: center;
+}
+
+footer{
+    height: 20%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+input[type="button"]{
+    font-size: 2em;
+    padding: 5px;
+    border-radius: 15px;
+}
+
+.containerJogadores{
+    height: 100%;
+    width: 45%;
+    display: flex;
+}
+
+#containerJogador{
+    justify-content: flex-end;
+}
+
+#containerOponente{
+    justify-content: flex-start;
+}
+
+.containerJogadores > div{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.imgMovimentos{
+    height: 100%;
+}
+
+#hud{
+    height: 100%;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+}
+

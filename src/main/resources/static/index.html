@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pedra, Papel ou Tesoura Online</title>
+
+    <link rel="stylesheet" href="index.css">
+</head>
+<body>
+    <header>
+        <h1>Pedra, Papel ou Tesoura Online</h1>
+    </header>
+    <main>
+        <div id="containerJogador" class="containerJogadores">
+            <div>
+                <h1>Você</h1>
+                <img src="/imgs/pedraJogador.png" class="imgMovimentos">
+            </div>
+        </div>
+        <div id="hud">
+            <h1 id="mensagem">Clique em conectar para começar a jogar!</h1>
+            <h1 id="pontuacao">0 - 0</h1>
+        </div>
+        <div id="containerOponente" class="containerJogadores">
+            <div>
+                <h1>Oponente</h1>
+                <img src="/imgs/pedraOponente.png" class="imgMovimentos">
+            </div>
+        </div>
+    </main>
+    <footer>
+        <input type="button" value="Conectar" id="botaoConectar">
+    </footer>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script>
+
+        $(function() {
+
+            $('#botaoConectar').on('click', () => {
+
+                $.ajax({
+                    url: '/conectarJogo',
+                    dataType: 'text',
+                    type: 'POST',
+                    beforeSend: function(){
+                        $("#mensagem").html("Aguardando conexão...")
+                        $("#botaoConectar").prop("disabled", true)
+                    },
+                    success: function(retorno){
+                        $('#mensagem').html(retorno)
+                    }
+                })
+
+            })
+
+        });
+
+    </script>
+</body>
+</html>
