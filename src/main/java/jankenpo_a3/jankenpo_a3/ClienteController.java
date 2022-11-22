@@ -11,7 +11,9 @@ import java.net.ServerSocket;
 public class ClienteController {
 
     private String HOST_SERVER = "localhost";
-    private int PORTA_SERVER = 8080;
+    private int PORTA_SERVER = 8081;
+    private int PORTA_CLIENTE = 8000;
+    private String HOST_CLIENTE = "localhost";
     private Socket socketCliente;
     private Socket socketResposta;
     private ServerSocket socketServer;
@@ -21,11 +23,11 @@ public class ClienteController {
     @PostMapping("/conectarJogo")
     public String conectarJogo(){
         try{
-            this.socketCliente = new Socket("localhost", 5000);
+            this.socketCliente = new Socket("localhost", PORTA_SERVER);
             this.serverOutput = new DataOutputStream(this.socketCliente.getOutputStream());
-            this.serverOutput.writeUTF("Perguntei");
+            this.serverOutput.writeUTF("Conexão");
             this.serverOutput.flush();
-            this.socketServer = new ServerSocket(5002);
+            this.socketServer = new ServerSocket(PORTA_CLIENTE);
             this.socketResposta = this.socketServer.accept();
             this.respostaInput = new DataInputStream(this.socketResposta.getInputStream());
             String resposta = this.respostaInput.readUTF();
