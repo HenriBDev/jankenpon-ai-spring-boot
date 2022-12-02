@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,6 +9,7 @@
 
     <link rel="stylesheet" href="index.css">
 </head>
+
 <body>
     <header>
         <h1>Pedra, Papel ou Tesoura Online</h1>
@@ -16,27 +18,110 @@
         <div id="containerJogador" class="containerJogadores">
             <div>
                 <h1>Você</h1>
-                <img src="/imgs/pedraJogador.png" class="imgMovimentos">
+                <img src="/imgs/pedraJogador.png" class="imgMovimentos" id="imgMovimentoJogador">
             </div>
         </div>
         <div id="hud">
             <h1 id="mensagem">Clique em conectar para começar a jogar!</h1>
-            <h1 id="pontuacao">0 - 0</h1>
+            <h1 id="contador">0</h1>
+            <h1 id="pontuacao">0-0</h1>
         </div>
         <div id="containerOponente" class="containerJogadores">
             <div>
                 <h1>Oponente</h1>
-                <img src="/imgs/pedraOponente.png" class="imgMovimentos">
+                <img src="/imgs/pedraOponente.png" class="imgMovimentos" id="imgMovimentoOponente">
             </div>
         </div>
     </main>
     <footer>
         <input type="button" value="Conectar" id="botaoConectar">
+        <input type="button" value="Pedra" id="botaoPedra" class="movimentos">
+        <input type="button" value="Papel" id="botaoPapel" class="movimentos">
+        <input type="button" value="Tesoura" id="botaoTesoura" class="movimentos">
     </footer>
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js" integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"
+        integrity="sha256-o88AwQnZB+VDvE9tvIXrMQaPlFFSUTR+nldQm1LuPXQ=" crossorigin="anonymous"></script>
     <script>
 
-        $(function() {
+        $(function () {
+
+            let intervaloContador,
+                movimentoSelecionado = "Pedra";
+
+            function atualizarContador() {
+                $("#contador").html(parseInt($("#contador").html() - 1))
+            }
+
+            function iniciarFaseEscolha() {
+
+                $("#mensagem").html("Escolha seu movimento")
+                $("#contador").html("8");
+                $(".movimentos").prop("disabled", false)
+                $(".movimentos").css("display", "block")
+                $("#botaoConectar").css("display", "none")
+                intervaloContador = setInterval(atualizarContador, 1000)
+                setTimeout(() => {
+                    clearInterval(intervaloContador)
+                    $.ajax({
+                        url: '/decidirVencedor',
+                        dataType: 'text',
+                        type: 'POST',
+                        success: function (retorno) {
+                            [ status, pontuacao, movOponente ] = retorno.split(' ')
+                            switch(status){
+                                case "Empate":
+                                    $("#mensagem").html('Empatou!');
+                                    setTimeout(iniciarFaseEscolha, 2000);
+                                break;
+                                case "Venceu":
+                                    $("#mensagem").html('Parabéns! Você venceu o jogo. :D');
+                                    $("#botaoConectar").prop("disabled", false);
+                                    $("#botaoConectar").val("Recomeçar");
+                                    $(".movimentos").css("display", "none");
+                                    $("#botaoConectar").css("display", "block");
+                                    $("#contador").css("display", "none")
+                                break;
+                                case "Pontuou":
+                                    $("#mensagem").html('Você pontuou!');
+                                    setTimeout(iniciarFaseEscolha, 2000);
+                                break;
+                                case "Perdeu":
+                                    $("#mensagem").html('Você perdeu o jogo. :(');
+                                    $("#botaoConectar").prop("disabled", false);
+                                    $("#botaoConectar").val("Recomeçar");
+                                    $(".movimentos").css("display", "none");
+                                    $("#botaoConectar").css("display", "block");
+                                    $("#contador").css("display", "none")
+                                break;
+                                case "Deixou":
+                                    $("#mensagem").html('Seu oponente pontuou.');
+                                    setTimeout(iniciarFaseEscolha, 2000);
+                                break;
+                            }
+                            $("#pontuacao").html(pontuacao);
+                            $("#imgMovimentoOponente").attr('src', '/imgs/' + movOponente.toLowerCase() + 'Oponente.png');
+                        }
+                    })
+
+
+                }, 8000)
+                setTimeout(() => $(".movimentos").prop("disabled", true), 5000)
+            }
+
+            $(".movimentos").on('click', function () {
+                let movimento = $(this).val()
+                $.ajax({
+                    url: '/atualizarMovimento',
+                    dataType: 'text',
+                    type: 'POST',
+                    data: {
+                        "movimento": movimento
+                    },
+                    success: function () {
+                        $("#imgMovimentoJogador").attr('src', '/imgs/' + movimento.toLowerCase() + 'Jogador.png')
+                    }
+                })
+            })
 
             $('#botaoConectar').on('click', () => {
 
@@ -44,12 +129,26 @@
                     url: '/conectarJogo',
                     dataType: 'text',
                     type: 'POST',
-                    beforeSend: function(){
+                    beforeSend: function () {
                         $("#mensagem").html("Aguardando conexão...")
+                        $("#mensagem").append('<img src="/imgs/gifCarregando.gif" width="50" height="50">')
                         $("#botaoConectar").prop("disabled", true)
+                        $("#pontuacao").html("0-0");
+                        $("#contador").css("display", "none");
                     },
-                    success: function(retorno){
-                        $('#mensagem').html(retorno)
+                    success: function (retorno) {
+                        if (retorno == "Conexão Estabelecida!") {
+                            $('#mensagem').html(retorno + '<br>O jogo vai começar...');
+                            $("#contador").css("display", "block");
+                            $("#contador").html("3");
+                            intervaloContador = setInterval(atualizarContador, 1000);
+                            setTimeout(() => {
+                                clearInterval(intervaloContador)
+                                iniciarFaseEscolha()
+                            }, 3000)
+                        } else {
+                            $('#mensagem').html(retorno)
+                        }
                     }
                 })
 
@@ -59,4 +158,5 @@
 
     </script>
 </body>
+
 </html>

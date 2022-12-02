@@ -71,3 +71,17 @@ input[type="button"]{
     text-align: center;
 }
 
+#mensagem{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#contador{
+    display: none;
+}
+
+.movimentos{
+    display: none;
+}
