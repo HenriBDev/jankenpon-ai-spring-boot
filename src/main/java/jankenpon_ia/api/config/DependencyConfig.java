@@ -1,10 +1,10 @@
-package ai_jankenpon.api.config;
+package jankenpon_ia.api.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import ai_jankenpon.application.abstractions.services.JogadaService;
-import ai_jankenpon.application.v1.services.JogadaServiceV1;
+import jankenpon_ia.application.abstractions.services.JogadaService;
+import jankenpon_ia.application.v1.services.JogadaServiceV1;
 
 @Configuration
 public class DependencyConfig 

@@ -1,4 +1,4 @@
-package ai_jankenpon.domain.enums;
+package jankenpon_ia.domain.enums;
 
 public enum MovimentoEnum {
     PEDRA,

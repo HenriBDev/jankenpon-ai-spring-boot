@@ -1,4 +1,4 @@
-package ai_jankenpon.api;
+package jankenpon_ia.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

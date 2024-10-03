@@ -1,6 +1,6 @@
-package ai_jankenpon.domain.models;
+package jankenpon_ia.domain.models;
 
-import ai_jankenpon.domain.enums.MovimentoEnum;
+import jankenpon_ia.domain.enums.MovimentoEnum;
 
 public class JogadaRequestModel 
 {

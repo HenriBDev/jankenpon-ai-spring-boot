@@ -8,10 +8,10 @@
 		<version>2.7.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>portfolio.jankenpon.ai</groupId>
-	<artifactId>AIJankenpon</artifactId>
+	<groupId>portfolio.jankenpon.ia</groupId>
+	<artifactId>JankenponIA</artifactId>
 	<version>1.0.0</version>
-	<name>jankenpo_a3</name>
+	<name>jankenpo_ia</name>
 	<description>Projeto de Jankenpon utilizando IA</description>
 	<properties>
 		<java.version>17</java.version>

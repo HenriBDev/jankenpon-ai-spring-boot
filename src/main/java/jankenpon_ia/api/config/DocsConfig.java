@@ -1,4 +1,4 @@
-package ai_jankenpon.api.config;
+package jankenpon_ia.api.config;
 
 import org.springframework.context.annotation.Configuration;
 
