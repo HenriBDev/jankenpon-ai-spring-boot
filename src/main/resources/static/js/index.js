@@ -1,7 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+    // CONSTANTES
     const API_URL = "/api/v1";
 
+    // ENUMS
+    const MOVIMENTO_ENUM = ["PEDRA", "PAPEL", "TESOURA"]
+
+    // DOM
     const BUTTON_INICIAR = document.getElementById('btn-iniciar');
     const CONTAINER_MOVIMENTOS = document.getElementById("container-movimentos");
     const IMG_MAO_JOGADOR = document.getElementById("img-mao-jogador");
@@ -10,19 +15,27 @@ document.addEventListener('DOMContentLoaded', () => {
     
     Array.from(document.getElementsByClassName("btn-movimento")).forEach(btn => btn.addEventListener('click', async e => {
 
-        let movimentoSelecionado = e.target.innerHTML.toLowerCase();
+        let movimentoSelecionado = e.target.innerHTML.toUpperCase();
+
+        if(!MOVIMENTO_ENUM.includes(movimentoSelecionado)){
+            LABEL_SESSAO.innerHTML = "Movimento inválido.";
+            return;
+        }
 
         try{
             await fetch(`${API_URL}/jogada`, {
                 method: "POST",
-                body: movimentoSelecionado
+                body: JSON.stringify({Movimento: movimentoSelecionado}),
+                headers: {
+                    "Content-Type": "application/json",
+                },
             });
 
             IMG_MAO_JOGADOR.setAttribute("src", `/imgs/${movimentoSelecionado}Jogador.png`);
         }
         
         catch (err){
-            LABEL_SESSAO = "Não foi possível realizar essa jogada."
+            LABEL_SESSAO.innerHTML = "Não foi possível realizar essa jogada.";
         }
 
     }))
