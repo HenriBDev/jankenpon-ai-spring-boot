@@ -4,13 +4,13 @@ import ai_jankenpon.domain.enums.MovimentoEnum;
 
 public class JogadaRequestModel 
 {
-    public MovimentoEnum Movimento;
+    public MovimentoEnum movimento;
     public MovimentoEnum getMovimento() 
     {
-        return Movimento;
+        return movimento;
     }
     public void setMovimento(MovimentoEnum movimento) 
     {
-        Movimento = movimento;
+        this.movimento = movimento;
     }
 }

@@ -10,6 +10,6 @@ public class JogadaServiceV1 implements JogadaService
 {
     public void criarJogada(JogadaRequestModel jogada)
     {
-        System.out.println(jogada.Movimento);
+        System.out.println(jogada.movimento);
     }
 }
