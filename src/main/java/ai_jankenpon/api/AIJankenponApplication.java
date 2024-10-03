@@ -1,13 +1,13 @@
-package jankenpo_a3.jankenpo_a3;
+package ai_jankenpon.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class JankenpoA3Application {
+public class AIJankenponApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(JankenpoA3Application.class, args);
+		SpringApplication.run(AIJankenponApplication.class, args);
 	}
 
 }

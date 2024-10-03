@@ -8,15 +8,16 @@
 		<version>2.7.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>jankenpo_a3</groupId>
-	<artifactId>jankenpo_a3</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<groupId>portfolio.jankenpon.ai</groupId>
+	<artifactId>AIJankenpon</artifactId>
+	<version>1.0.0</version>
 	<name>jankenpo_a3</name>
-	<description>Projeto A3 de Sistemas Distribuídos</description>
+	<description>Projeto de Jankenpon utilizando IA</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
 	<dependencies>
+	
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
