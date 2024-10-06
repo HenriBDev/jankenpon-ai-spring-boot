@@ -10,6 +10,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const BUTTON_INICIAR = document.getElementById('btn-iniciar');
     const CONTAINER_MOVIMENTOS = document.getElementById("container-movimentos");
     const IMG_MAO_JOGADOR = document.getElementById("img-mao-jogador");
+    const IMG_MAO_OPONENTE = document.getElementById("img-mao-oponente");
     const LABEL_SESSAO = document.getElementById("label-sessao");
     const LABEL_PONTUACAO = document.getElementById("label-pontuacao");
     
@@ -23,19 +24,44 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try{
-            await fetch(`${API_URL}/jogada`, {
+            let response = await fetch(`${API_URL}/rodada`, {
                 method: "POST",
-                body: JSON.stringify({Movimento: movimentoSelecionado}),
+                body: JSON.stringify({movimento: movimentoSelecionado}),
                 headers: {
                     "Content-Type": "application/json",
                 },
             });
 
+            let responseBody = await response.json();
+
+            let movimentoCPU = responseBody.dados.movimentoCPU;
+            let resultadoRodada = responseBody.dados.resultadoRodada
+
             IMG_MAO_JOGADOR.setAttribute("src", `/imgs/${movimentoSelecionado}Jogador.png`);
+            IMG_MAO_OPONENTE.setAttribute("src", `/imgs/${movimentoCPU.toLowerCase()}Oponente.png`);
+
+            let pontuacaoQuebrada = LABEL_PONTUACAO.innerHTML.split("-");
+            switch(resultadoRodada){
+
+                case "VENCEU":
+                    LABEL_PONTUACAO.innerHTML = (parseInt(pontuacaoQuebrada[0]) + 1) + "-" + pontuacaoQuebrada[1]
+                    LABEL_SESSAO.innerHTML = "Você ganhou a rodada!.";
+                break;
+
+                case "PERDEU":
+                    LABEL_PONTUACAO.innerHTML = pontuacaoQuebrada[0] + "-" + (parseInt(pontuacaoQuebrada[1]) + 1)
+                    LABEL_SESSAO.innerHTML = "O oponente ganhou a rodada.";
+                break;
+
+                case "EMPATOU":
+                    LABEL_SESSAO.innerHTML = "Empate nessa rodada.";
+                break;
+
+            }
         }
         
         catch (err){
-            LABEL_SESSAO.innerHTML = "Não foi possível realizar essa jogada.";
+            LABEL_SESSAO.innerHTML = "Não foi possível realizar essa Rodada.";
         }
 
     }))

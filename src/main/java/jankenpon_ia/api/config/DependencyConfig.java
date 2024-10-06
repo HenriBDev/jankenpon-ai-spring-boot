@@ -3,8 +3,8 @@ package jankenpon_ia.api.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import jankenpon_ia.application.abstractions.services.JogadaService;
-import jankenpon_ia.application.v1.services.JogadaServiceV1;
+import jankenpon_ia.application.abstractions.services.RodadaService;
+import jankenpon_ia.application.v1.services.RodadaServiceV1;
 
 @Configuration
 public class DependencyConfig 
@@ -18,9 +18,9 @@ public class DependencyConfig
     @Bean
     public void configurarServices()
     {
-        jogadaService();
+        RodadaService();
     }
 
     @Bean
-    public JogadaService jogadaService(){ return new JogadaServiceV1(); }
+    public RodadaService RodadaService(){ return new RodadaServiceV1(); }
 }
