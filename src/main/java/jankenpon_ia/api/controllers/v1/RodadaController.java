@@ -6,9 +6,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jankenpon_ia.application.abstractions.services.RodadaService;
-import jankenpon_ia.contracts.JsonResponse;
 import jankenpon_ia.domain.models.RodadaRequestModel;
-import jankenpon_ia.domain.models.RodadaResponseModel;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,25 +25,24 @@ public class RodadaController
     private RodadaService _service;
 
     @PostMapping
-    @Operation(summary = "Inicializa rodada", description = "Instancia uma nova Rodada e insere na base de dados")
+    @Operation(summary = "Inicializa rodada", description = "Instancia uma nova rodada e insere na base de dados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Rodada realizada com sucesso"),
             @ApiResponse(responseCode = "500", description = "Houve um erro no sistema")
     })
-    public ResponseEntity<JsonResponse<RodadaResponseModel>> criarRodada(
+    public ResponseEntity<?> criarRodada(
         @Parameter(description = "Informações da Rodada realizada", required = true)
         @RequestBody(required = true) RodadaRequestModel Rodada)
     {
         try
         {
-            var response = _service.criarRodada(Rodada);
+            var response = _service.criarRodada(Rodada).toResponseEntity();
             return response;
         }
         catch(Exception e)
         {
-            System.out.println("a");
             System.err.println(e.getMessage());
-            return new ResponseEntity<JsonResponse<RodadaResponseModel>>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
