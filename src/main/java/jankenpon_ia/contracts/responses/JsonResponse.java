@@ -1,4 +1,4 @@
-package jankenpon_ia.contracts.responses.json;
+package jankenpon_ia.contracts.responses;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

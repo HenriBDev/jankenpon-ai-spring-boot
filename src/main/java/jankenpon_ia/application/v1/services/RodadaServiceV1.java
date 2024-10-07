@@ -1,13 +1,12 @@
 package jankenpon_ia.application.v1.services;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import jankenpon_ia.application.abstractions.services.RodadaService;
 import jankenpon_ia.common.EnumExtensions;
 import jankenpon_ia.contracts.abstractions.responses.BaseResponse;
-import jankenpon_ia.contracts.responses.json.JsonResponse;
+import jankenpon_ia.contracts.responses.JsonResponse;
 import jankenpon_ia.domain.enums.MovimentoEnum;
 import jankenpon_ia.domain.enums.ResultadoRodadaEnum;
 import jankenpon_ia.domain.models.RodadaRequestModel;
