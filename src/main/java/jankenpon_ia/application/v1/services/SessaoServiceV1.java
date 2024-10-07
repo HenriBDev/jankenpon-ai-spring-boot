@@ -3,7 +3,7 @@ package jankenpon_ia.application.v1.services;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import jankenpon_ia.application.abstractions.services.RodadaService;
+import jankenpon_ia.application.abstractions.services.SessaoService;
 import jankenpon_ia.common.EnumExtensions;
 import jankenpon_ia.contracts.abstractions.responses.BaseResponse;
 import jankenpon_ia.contracts.responses.JsonResponse;
@@ -13,9 +13,9 @@ import jankenpon_ia.domain.models.RodadaRequestModel;
 import jankenpon_ia.domain.models.RodadaResponseModel;
 
 @Service
-public class RodadaServiceV1 implements RodadaService
+public class SessaoServiceV1 implements SessaoService
 {
-    public BaseResponse criarRodada(RodadaRequestModel RodadaJogador)
+    public BaseResponse executarRodada(RodadaRequestModel RodadaJogador)
     {
         if(RodadaJogador == null || RodadaJogador.getMovimento() == null)
             return new JsonResponse<RodadaResponseModel>(
