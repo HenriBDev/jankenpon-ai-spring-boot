@@ -28,16 +28,14 @@ public class SessaoController
     @PostMapping
     @Operation(summary = "Inicia sessão", description = "Instancia uma nova sessão e insere na base de dados")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Sessão criada com sucesso"),
+            @ApiResponse(responseCode = "204", description = "Sessão criada com sucesso"),
             @ApiResponse(responseCode = "500", description = "Houve um erro no sistema")
     })
-    public ResponseEntity<?> iniciarSessao(
-        @Parameter(description = "Informações da sessão sendo iniciada", required = true)
-        @RequestBody(required = true) RodadaRequestModel Rodada)
+    public ResponseEntity<?> iniciarSessao()
     {
         try
         {
-            var response = _service.executarRodada(Rodada).toResponseEntity();
+            var response = _service.iniciarSessao().toResponseEntity();
             return response;
         }
         catch(Exception e)
@@ -52,6 +50,7 @@ public class SessaoController
     @Operation(summary = "Executa rodada", description = "Instancia uma nova rodada e insere na base de dados")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Rodada realizada com sucesso"),
+            @ApiResponse(responseCode = "400", description = "Informações sobre a rodada inválidas"),
             @ApiResponse(responseCode = "500", description = "Houve um erro no sistema")
     })
     public ResponseEntity<?> executarRodada(

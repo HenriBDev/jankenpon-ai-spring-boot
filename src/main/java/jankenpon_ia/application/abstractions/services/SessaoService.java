@@ -6,4 +6,5 @@ import jankenpon_ia.domain.models.RodadaRequestModel;
 public interface SessaoService 
 {
     BaseResponse executarRodada(RodadaRequestModel Rodada);
+    BaseResponse iniciarSessao();
 }
