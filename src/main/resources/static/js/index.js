@@ -24,9 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try{
-            let response = await fetch(`${API_URL}/rodada`, {
-                method: "POST",
-                body: JSON.stringify({movimento: movimentoSelecionado}),
+            let response = await fetch(`${API_URL}/sessao/rodadas`, {
+                method: "PATCH",
+                body: JSON.stringify({
+                    sessaoId: localStorage.getItem("sessaoId"),
+                    movimento: movimentoSelecionado
+                }),
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -45,7 +48,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 case "VENCEU":
                     LABEL_PONTUACAO.innerHTML = (parseInt(pontuacaoQuebrada[0]) + 1) + "-" + pontuacaoQuebrada[1]
-                    LABEL_SESSAO.innerHTML = "Você ganhou a rodada!.";
+                    LABEL_SESSAO.innerHTML = "Você ganhou a rodada!";
                 break;
 
                 case "PERDEU":
@@ -67,11 +70,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }))
     
     BUTTON_INICIAR.addEventListener('click', async (e) => {
+
+        try{
+            let response = await fetch(`${API_URL}/sessao`, {
+                method: "POST",
+            });
+
+            let responseBody = await response.json();
+
+            localStorage.setItem("sessaoId", responseBody.dados.sessao);
+
+            LABEL_SESSAO.innerHTML = "Selecione seu movimento";
+            LABEL_PONTUACAO.innerHTML = "0-0";
+            CONTAINER_MOVIMENTOS.style.display = "flex";
+            e.target.style.display = "none";
+        }
         
-        LABEL_SESSAO.innerHTML = "Selecione seu movimento";
-        LABEL_PONTUACAO.innerHTML = "0-0";
-        CONTAINER_MOVIMENTOS.style.display = "flex";
-        e.target.style.display = "none";
+        catch (err){
+            LABEL_SESSAO.innerHTML = "Não foi possível iniciar o jogo.";
+        }
     
     })
 });
