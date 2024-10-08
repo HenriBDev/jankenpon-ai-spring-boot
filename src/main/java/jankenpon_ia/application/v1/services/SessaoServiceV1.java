@@ -40,6 +40,12 @@ public class SessaoServiceV1 implements SessaoService
 
         var rodada = new RodadaModel(UUID.randomUUID(), movimentoJogador, movimentoCPU, resultadoRodada);
 
+        var sessao = _repository.findById(rodadaJogador.getSessaoId()).get();
+
+        sessao.rodadas.add(rodada);
+
+        _repository.save(sessao);
+
         var dadosResponse = new RodadaResponseModel(
             resultadoRodada, 
             movimentoCPU

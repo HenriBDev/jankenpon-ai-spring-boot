@@ -11,6 +11,6 @@ import lombok.Getter;
 @Getter
 public class RodadaRequestModel 
 {
-    private UUID sessao;
+    private UUID sessaoId;
     private MovimentoEnum movimento;
 }

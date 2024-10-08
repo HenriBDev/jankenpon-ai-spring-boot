@@ -26,7 +26,10 @@ document.addEventListener('DOMContentLoaded', () => {
         try{
             let response = await fetch(`${API_URL}/sessao/rodadas`, {
                 method: "PATCH",
-                body: JSON.stringify({movimento: movimentoSelecionado}),
+                body: JSON.stringify({
+                    sessaoId: localStorage.getItem("sessaoId"),
+                    movimento: movimentoSelecionado
+                }),
                 headers: {
                     "Content-Type": "application/json",
                 },
@@ -75,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             let responseBody = await response.json();
 
-            localStorage.setItem("sessao_id", responseBody.dados.sessao);
+            localStorage.setItem("sessaoId", responseBody.dados.sessao);
 
             LABEL_SESSAO.innerHTML = "Selecione seu movimento";
             LABEL_PONTUACAO.innerHTML = "0-0";
