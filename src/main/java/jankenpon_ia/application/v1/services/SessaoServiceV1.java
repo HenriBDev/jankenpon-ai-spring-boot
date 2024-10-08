@@ -1,9 +1,12 @@
 package jankenpon_ia.application.v1.services;
 
+import java.util.UUID;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
-import jankenpon_ia.application.abstractions.services.RodadaService;
+import jankenpon_ia.application.abstractions.services.SessaoService;
 import jankenpon_ia.common.EnumExtensions;
 import jankenpon_ia.contracts.abstractions.responses.BaseResponse;
 import jankenpon_ia.contracts.responses.JsonResponse;
@@ -11,11 +14,16 @@ import jankenpon_ia.domain.enums.MovimentoEnum;
 import jankenpon_ia.domain.enums.ResultadoRodadaEnum;
 import jankenpon_ia.domain.models.RodadaRequestModel;
 import jankenpon_ia.domain.models.RodadaResponseModel;
+import jankenpon_ia.domain.models.SessaoModel;
+import jankenpon_ia.infrastructure.abstractions.repositories.SessaoRepository;
 
 @Service
-public class RodadaServiceV1 implements RodadaService
+public class SessaoServiceV1 implements SessaoService
 {
-    public BaseResponse criarRodada(RodadaRequestModel RodadaJogador)
+    @Autowired
+    private SessaoRepository _repository;
+
+    public BaseResponse executarRodada(RodadaRequestModel RodadaJogador)
     {
         if(RodadaJogador == null || RodadaJogador.getMovimento() == null)
             return new JsonResponse<RodadaResponseModel>(
@@ -31,6 +39,13 @@ public class RodadaServiceV1 implements RodadaService
         );
 
         return new JsonResponse<RodadaResponseModel>(HttpStatus.OK, dadosResponse);
+    }
+
+    public BaseResponse iniciarSessao()
+    {
+        var sessao = _repository.save(new SessaoModel());
+
+        return new JsonResponse<UUID>(HttpStatus.CREATED, sessao.id);
     }
 
     private ResultadoRodadaEnum calcularResultadoRodada(MovimentoEnum movimentoJogador, MovimentoEnum movimentoCPU)
