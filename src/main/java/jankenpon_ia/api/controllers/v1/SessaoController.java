@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jankenpon_ia.application.abstractions.services.SessaoService;
 import jankenpon_ia.domain.models.RodadaRequestModel;
 
+import java.util.concurrent.CompletableFuture;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,11 +33,13 @@ public class SessaoController
             @ApiResponse(responseCode = "204", description = "Sessão criada com sucesso"),
             @ApiResponse(responseCode = "500", description = "Houve um erro no sistema")
     })
-    public ResponseEntity<?> iniciarSessao()
+    public CompletableFuture<ResponseEntity<?>> iniciarSessaoAsync(){ return CompletableFuture.supplyAsync(() -> 
     {
         try
         {
-            var response = _service.iniciarSessao().toResponseEntity();
+            var response = _service.iniciarSessaoAsync()
+                .get()
+                .toResponseEntity();
             return response;
         }
         catch(Exception e)
@@ -43,7 +47,7 @@ public class SessaoController
             System.err.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+    });}
 
     @PatchMapping
     @RequestMapping("rodadas")
@@ -53,13 +57,15 @@ public class SessaoController
             @ApiResponse(responseCode = "400", description = "Informações sobre a rodada inválidas"),
             @ApiResponse(responseCode = "500", description = "Houve um erro no sistema")
     })
-    public ResponseEntity<?> executarRodada(
+    public CompletableFuture<ResponseEntity<?>> executarRodadaAsync(
         @Parameter(description = "Informações da rodada realizada", required = true)
-        @RequestBody(required = true) RodadaRequestModel Rodada)
+        @RequestBody(required = true) RodadaRequestModel Rodada){ return CompletableFuture.supplyAsync(() -> 
     {
         try
         {
-            var response = _service.executarRodada(Rodada).toResponseEntity();
+            var response = _service.executarRodadaAsync(Rodada)
+                .get()
+                .toResponseEntity();
             return response;
         }
         catch(Exception e)
@@ -67,5 +73,5 @@ public class SessaoController
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
-    }
+    });}
 }

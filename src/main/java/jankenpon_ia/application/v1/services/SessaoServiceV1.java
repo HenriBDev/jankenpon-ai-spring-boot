@@ -1,6 +1,7 @@
 package jankenpon_ia.application.v1.services;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class SessaoServiceV1 implements SessaoService
     @Autowired
     private SessaoRepository _repository;
 
-    public BaseResponse executarRodada(RodadaRequestModel rodadaJogador)
+    public CompletableFuture<BaseResponse> executarRodadaAsync(RodadaRequestModel rodadaJogador) { return CompletableFuture.supplyAsync(() -> 
     {
         if(rodadaJogador == null || rodadaJogador.getMovimento() == null)
             return new JsonResponse<RodadaResponseModel>(
@@ -52,14 +53,14 @@ public class SessaoServiceV1 implements SessaoService
         );
 
         return new JsonResponse<RodadaResponseModel>(HttpStatus.OK, dadosResponse);
-    }
+    });}
 
-    public BaseResponse iniciarSessao()
+    public CompletableFuture<BaseResponse> iniciarSessaoAsync(){ return CompletableFuture.supplyAsync(() -> 
     {
         var sessao = _repository.save(new SessaoModel());
 
         return new JsonResponse<SessaoResponseModel>(HttpStatus.CREATED, new SessaoResponseModel(sessao.id));
-    }
+    });}
 
     private ResultadoRodadaEnum calcularResultadoRodada(MovimentoEnum movimentoJogador, MovimentoEnum movimentoCPU)
     {
